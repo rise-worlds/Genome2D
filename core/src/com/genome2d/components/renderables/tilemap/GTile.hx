@@ -52,21 +52,8 @@ class GTile
     private var g2d_accumulatedTime:Float = 0;
 
     private var g2d_currentFrame:Int = 0;
-    #if swc @:extern #end
-    public var currentFrame(get, never):Int;
-    #if swc @:getter(currentFrame) #end
-    inline private function get_currentFrame():Int {
-        return g2d_currentFrame;
-    }
 
     private var g2d_frameTexturesCount:Int = 0;
-    #if swc @:extern #end
-    public var frameCount(get, never):Int;
-    #if swc @:getter(frameCount) #end
-    inline private function get_frameCount():Int {
-        return g2d_frameTexturesCount;
-    }
-
     private var g2d_frameTextures:Array<GTexture>;
     #if swc @:extern #end
     public var frameTextures(never, set):Array<GTexture>;
@@ -105,18 +92,6 @@ class GTile
         return p_value;
     }
 
-    #if swc @:extern #end
-    public var frameRate(get, set):Int;
-    #if swc @:getter(frameRate) #end
-    inline private function get_frameRate():Int {
-        return Std.int(1000 / g2d_speed);
-    }
-    #if swc @:setter(frameRate) #end
-    inline private function set_frameRate(p_value :Int):Int {
-        g2d_speed = 1000 / p_value;
-        return p_value;
-    }
-
     public function new(p_cols:Int = 1, p_rows:Int = 1, p_mapX:Int = -1, p_mapY:Int = -1) {
         if ((p_rows != 1 || p_cols != 1) && (p_mapX == -1 || p_mapY == -1)) new GError("Invalid tile definition.");
 
@@ -134,20 +109,21 @@ class GTile
         g2d_playing = true;
     }
 
-    public function gotoFrame(p_frame:Int):Void {
-        if (g2d_frameTextures == null) return;
-        g2d_currentFrame = p_frame;
-        g2d_currentFrame %= g2d_frameTexturesCount;
-        texture = g2d_frameTextures[g2d_currentFrame];
-    }
-
     public function gotoAndPlayFrame(p_frame:Int):Void {
-        gotoFrame(p_frame);
+        if (g2d_frameTextures.length<p_frame) {
+            texture = g2d_frameTextures[p_frame];
+        } else {
+            texture = g2d_frameTextures[g2d_frameTextures.length-1];
+        }
         g2d_playing = true;
     }
 
     public function gotoAndStopFrame(p_frame:Int):Void {
-        gotoFrame(p_frame);
+        if (g2d_frameTextures.length<p_frame) {
+            texture = g2d_frameTextures[p_frame];
+        } else {
+            texture = g2d_frameTextures[g2d_frameTextures.length-1];
+        }
         g2d_playing = false;
     }
 
