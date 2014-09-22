@@ -267,10 +267,10 @@ class GMatrixQuadTextureShaderRenderer implements IGRenderer
             py = p_texture.pivotY;
         }
 
-        //if (px != 0 || py != 0) {
-        //    p_tx = p_tx - px*p_a - py*p_c;
-        //    p_ty = p_ty - px*p_b - py*p_d;
-        //}
+        if (px != 0 || py != 0) {
+            p_tx = p_tx - px*p_a - py*p_c;
+            p_ty = p_ty - px*p_b - py*p_d;
+        }
 		
 		// Alpha is active and texture uses premultiplied source
 		if (g2d_activeAlpha && p_texture.premultiplied) {
