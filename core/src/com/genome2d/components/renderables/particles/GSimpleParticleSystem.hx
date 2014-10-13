@@ -8,6 +8,7 @@
  */
 package com.genome2d.components.renderables.particles;
 
+import com.genome2d.particles.GSimpleParticle;
 import com.genome2d.error.GError;
 import com.genome2d.geom.GRectangle;
 import com.genome2d.components.GComponent;
@@ -298,7 +299,7 @@ class GSimpleParticleSystem extends GComponent implements IRenderable
                 ty = node.transform.g2d_worldY + particle.g2d_y;
             }
 		
-			node.core.getContext().draw(texture, tx, ty, particle.g2d_scaleX*node.transform.g2d_worldScaleX, particle.g2d_scaleY*node.transform.g2d_worldScaleY, particle.g2d_rotation, particle.g2d_red, particle.g2d_green, particle.g2d_blue, particle.g2d_alpha, blendMode);
+			node.core.getContext().draw(particle.g2d_texture, tx, ty, particle.g2d_scaleX*node.transform.g2d_worldScaleX, particle.g2d_scaleY*node.transform.g2d_worldScaleY, particle.g2d_rotation, particle.g2d_red, particle.g2d_green, particle.g2d_blue, particle.g2d_alpha, blendMode);
 
 			particle = next;
 		}
